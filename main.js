@@ -53,7 +53,7 @@ if (confirm("Este simulador va a preguntarle la cantidad de estudiantes a evalua
 
     //Una funcion cuyos parametros son "El nombre del estudiante, el cual se ira iterando en el array que iremos completando con nombres desde la pagina"
     //Las preguntas y respuestas, mismas que toma desde los arrays internos, por otro lado el numero de preguntas se asigna internamente.
-    function examen(nombre, preguntas, respuestas, numPreguntas) {
+    function examen(nombre, preguntas, respuestas,numPreguntas) {
         let puntaje = 0;
         alert(`Empiezan las preguntas para el estudiante: ${nombre}`);
 
@@ -92,16 +92,18 @@ if (confirm("Este simulador va a preguntarle la cantidad de estudiantes a evalua
             respuestasRestantes.splice(indiceAleatorio, 1);
         }
 
-        return puntaje;
+        return [puntaje, numPreguntas];
     }
 
 
     document.write(`<h1 style="text-align: center;">RESULTADOS DEL EXAMEN:</h1>`);
     for (let j = 0; j < cantidad; j++) {
         //Momento en el que segun la cantidad llamaremos a la funcion eexamen, enviandole los nombres de los estudiantes, preguntas, respuestas y cantidad de preguntas a tomar
-        let puntaje = examen(estudiantes[j], preguntas, respuestas, 4);
+        let resultado = examen(estudiantes[j], preguntas, respuestas, 4);
+        let puntaje = resultado[0];
+        let numPreguntas = resultado[1];
         //El objetivo por eel momento esta establecido een el 50% de las preguntas asignadas, se modificara en el caso de que la institucion lo pida
-        let objetivo = puntaje / 2
+        let objetivo = resultado[1]/ 2
         //Cada estudiante aprobado tendra un true
         let aprobado = false
 
@@ -114,7 +116,7 @@ if (confirm("Este simulador va a preguntarle la cantidad de estudiantes a evalua
         }
         else if (puntaje == 1) {
             document.write(`<h2>El estudiante ${estudiantes[j]} logró una cantidad de ${puntaje} punto</h2>`);
-            if (objetivo < objetivo) {
+            if (puntaje < objetivo) {
                 document.write(`<h3 style="color:red;">No paso el examen`);
                 aprobado = false
                 document.write(`<hr>`);
